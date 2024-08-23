@@ -2,6 +2,8 @@ from utils import fetch_pull_requests
 from utils import generate_report
 from utils import slack
 import os
+
+
 # Usage example
 token = os.environ['GITHUB_TOKEN']
 repo_name = os.environ['REPO_NAME']

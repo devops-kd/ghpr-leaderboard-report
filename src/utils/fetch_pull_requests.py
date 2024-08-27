@@ -1,27 +1,28 @@
 from github import Github
 from datetime import datetime, timedelta, timezone
+import os
 
-def fetch_pull_requests(repo_name, token):
+
+def get_last_week_date():
+    return datetime.now(timezone.utc)  - timedelta(days=7)
+
+
+def get_pull_request_api(repo_name, token, state):
     github = Github(token)
     repo = github.get_repo(repo_name)
-    last_week_date = datetime.now(timezone.utc)  - timedelta(days=7)
-    pull_requests = repo.get_pulls(state='all', sort='created', direction='desc')
+    pull_requests = repo.get_pulls(state=state, sort='created', direction='desc')
+    return pull_requests
+    
+
+def fetch_pull_requests(repo_name, token):
+    last_week_date = get_last_week_date()
     summary = {'opened': [], 'merged': [], 'closed': []}
+    pull_requests = get_pull_request_api(repo_name, token, "all")
     for pr in pull_requests:
-        if pr.created_at > last_week_date:
-            pr_data = {
-                'title': pr.title,
-                'url': pr.html_url,
-                'created_at': pr.created_at,
-                'updated_at': pr.updated_at,
-                'merged_by': pr.merged_by, 
-                'user': pr.user,
-                'state': pr.state
-            }
-            if pr.is_merged():
-                summary['merged'].append(pr_data)
-            elif pr.state == 'open':
-                summary['opened'].append(pr_data)
-            elif pr.state == 'closed':
-                summary['closed'].append(pr_data)
+        if pr.is_merged() and pr.merged_at > last_week_date:
+            summary['merged'].append(pr)
+        elif pr.state == 'open' and pr.created_at > last_week_date:
+            summary['opened'].append(pr)
+        elif pr.state == 'closed' and pr.closed_at > last_week_date:
+            summary['closed'].append(pr)
     return summary

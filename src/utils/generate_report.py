@@ -1,7 +1,11 @@
-def generate_report(summary):
-    report = "Weekly Pull Request Summary:\n\n"
-    for category, prs in summary.items():
-        report += f"{category.capitalize()} ({len(prs)}):\n"
-        for pr in prs:
-            report += f"- {pr['title']} (URL: {pr['url']}, USER: {pr['user']}, CREATED_DATE: {pr['created_at']})\n"
-    return report
+from jinja2 import Environment, FileSystemLoader
+from datetime import datetime
+import json
+
+def generate_report_from_j2_template(summary):
+    env = Environment(loader=FileSystemLoader('.'))
+    template = env.get_template('files/template.j2')
+    rendered_json = template.render(open_pr=summary["opened"],
+                                    merged_pr=summary["merged"],
+                                    closed_pr=summary["closed"])
+    return json.loads(rendered_json)

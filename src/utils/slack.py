@@ -1,13 +1,10 @@
 from requests import post
 import os
+import json
 
 def send_slack_message(message):
-    body = {
-        'text': message
-    }
-
     slack_webhook_url = os.environ['SLACK_WEBHOOK_URL']
-    response = post(url=slack_webhook_url, json=body)
+    response = post(url=slack_webhook_url, json=message)
 
     if response.status_code != 200:
         print(response.text)

@@ -1,0 +1,21 @@
+name: Build GHPR Leaderboard Project
+on: 
+  push:
+    branches: main
+
+jobs:
+    build-image:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+              with:
+                path: main
+            
+            - name: Build Docker image
+              run: |
+                docker build -t ghpr-leaderboard-report:v0.0.1 .
+            
+            - name: Run Docker container
+              run: |
+                docker run -d --name ghpr-leaderboard-report ghpr-leaderboard-report:v0.0.1

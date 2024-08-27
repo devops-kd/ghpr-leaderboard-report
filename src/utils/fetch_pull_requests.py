@@ -36,7 +36,7 @@ def get_pull_request_api(repo_name, token, state):
     token(str)    : Github Personal Access token for authentication
     state(str)    : Status of the pull requests, eg., open | merged | closed
 
-    Retrun type: PaginatedList of github.PullRequest.PullRequest
+    Return type: PaginatedList of github.PullRequest.PullRequest
     '''
     github = Github(token)
     repo = github.get_repo(repo_name)
@@ -57,7 +57,7 @@ def fetch_pull_requests(repo_name, token, num_of_days_ago):
     token(str)          : Github Personal Access token for authentication
     num_of_days_ago(int): Integer value that represents no. of days ago to fetch the PR data.
 
-    Retrun type: dict
+    Return type: dict
     '''
     last_week_date = get_last_week_date(num_of_days_ago)
     summary = {'opened': [], 'merged': [], 'closed': []}

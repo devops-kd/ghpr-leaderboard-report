@@ -1,7 +1,11 @@
+'''
+Main module of the entir solution tht executes methos in sequesce to fetch, 
+process, render and send report.
+'''
+import os
 from utils import fetch_pull_requests
 from utils import generate_report
 from utils import slack
-import os
 
 
 token = os.environ['GITHUB_TOKEN']

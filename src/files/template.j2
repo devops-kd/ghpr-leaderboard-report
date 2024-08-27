@@ -1,0 +1,83 @@
+{
+    "blocks": [
+        {
+			"type": "header",
+			"text": {
+				"type": "plain_text",
+				"text": "Weekly Pull Request Summary"
+			}
+		},
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Opened Pull Request - {{ open_pr|length }}*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*PR Title*\t\t\t\t*Created By*\t\t\t\t*Created On*"       
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "{% if open_pr %}{% for pr in open_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.user.login }}\t\t\t\t{{ pr.created_at }}\n{% endfor %}{% else %}No Data{% endif %}"
+            }
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Merged Pull Request - {{ merged_pr|length }}*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*PR Title*\t\t\t\t*Merged By*\t\t\t\t*Merged at*"        
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "{% if merged_pr %}{% for pr in merged_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.merged_by.login }}\t\t\t\t{{ pr.merged_at }}\n{% endfor %}{% else %}No Data{% endif %}"
+            }
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Closed Pull Request - {{ closed_pr|length }}*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*PR Title*\t\t\t\t*Closed By*\t\t\t\t*Closed at*"        
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "{% if closed_pr %}{% for pr in closed_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.user.login }}\t\t\t\t{{ pr.closed_at }}\n{% endfor %}{% else %}No Data{% endif %}"
+            }
+        }
+    ]
+}

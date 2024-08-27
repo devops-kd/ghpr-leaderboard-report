@@ -13,6 +13,8 @@ def generate_report_from_j2_template(summary):
     Parameter:
     summary(dict): Processed summary of PR data that has opened, closed and merged
                    pull requests since the given no. of days ago, usually the previous week.
+
+    Return type: dict
     '''
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template('files/template.j2')

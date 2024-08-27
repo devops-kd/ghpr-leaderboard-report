@@ -1,6 +1,6 @@
 name: Build GHPR Leaderboard Project
 on: 
-  push:
+  pull_request:
     branches: main
 
 jobs:

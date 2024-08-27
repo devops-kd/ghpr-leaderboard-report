@@ -11,7 +11,5 @@ from utils import slack
 token = os.environ['GITHUB_TOKEN']
 repo_name = os.environ['REPO_NAME']
 summary = fetch_pull_requests.fetch_pull_requests(repo_name, token, 7)
-print(type(summary))
 report = generate_report.generate_report_from_j2_template(summary)
-print(type(report))
 slack.send_slack_message(report)

@@ -9,13 +9,17 @@ from datetime import datetime, timedelta, timezone
 from github import Github
 
 
-def get_last_week_date():
+def get_last_week_date(num_of_days_ago):
     '''
-    This function that returns the last week date.
+    This function returns the last week date.
     The returned values will be used to filter queried
-    pull requests.
+    pull requests for further processing.
+
+    Parameters:
+    num_of_days_ago(int): Integer value that represents no. of days ago to fetch the PR data.
+                          Default value should be 7 days, it can be configured older than that.
     '''
-    return datetime.now(timezone.utc)  - timedelta(days=7)
+    return datetime.now(timezone.utc)  - timedelta(days=int(num_of_days_ago))
 
 
 def get_pull_request_api(repo_name, token, state):
@@ -29,11 +33,6 @@ def get_pull_request_api(repo_name, token, state):
                     eg., 'devops-kd/ghpr-leaderboard-report'
     token(str)    : Github Personal Access token for authentication
     state(str)    : Status of the pull requests, eg., open | merged | closed
-
-    Usage: get_pull_request_api('devops-kd/ghpr-leaderboard-report',
-                                'gh_123456abcdefg',
-                                'all')
-
     '''
     github = Github(token)
     repo = github.get_repo(repo_name)
@@ -41,13 +40,20 @@ def get_pull_request_api(repo_name, token, state):
     return pull_requests
 
 
-def fetch_pull_requests(repo_name, token):
+def fetch_pull_requests(repo_name, token, num_of_days_ago):
     '''
-    This is the primary function that calls the get_pull_request_api
-    method, filters the returned pull request data with last_week_date, status 
-    returns a dict object as a value for further processing.
+    This is the primary function that calls the get_pull_request_api()
+    method, filters the returned pull request data with last_week_date and status 
+    returns a dict object with list of opened, merged and closed PR created 
+    in the last week for further processing.
+
+    Parameters:
+    repo_name(str)      : The name of the repo you want to fetch pull request.
+                          eg., 'devops-kd/ghpr-leaderboard-report'
+    token(str)          : Github Personal Access token for authentication
+    num_of_days_ago(int): Integer value that represents no. of days ago to fetch the PR data.
     '''
-    last_week_date = get_last_week_date()
+    last_week_date = get_last_week_date(num_of_days_ago)
     summary = {'opened': [], 'merged': [], 'closed': []}
     pull_requests = get_pull_request_api(repo_name, token, "all")
     for pr in pull_requests:

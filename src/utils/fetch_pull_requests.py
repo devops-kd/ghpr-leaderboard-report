@@ -12,14 +12,16 @@ from github import Github
 def get_last_week_date(num_of_days_ago):
     '''
     This function returns the last week date.
-    The returned values will be used to filter queried
+    The returned value will be used to filter queried
     pull requests for further processing.
 
     Parameters:
-    num_of_days_ago(int): Integer value that represents no. of days ago to fetch the PR data.
+    num_of_days_ago(int): Integer value that represents no. of days ago, since when to fetch the PR data.
                           Default value should be 7 days, it can be configured older than that.
+
+    Return type: datetime.datetime
     '''
-    return datetime.now(timezone.utc)  - timedelta(days=int(num_of_days_ago))
+    return datetime.now(timezone.utc) - timedelta(days=int(num_of_days_ago))
 
 
 def get_pull_request_api(repo_name, token, state):
@@ -33,6 +35,8 @@ def get_pull_request_api(repo_name, token, state):
                     eg., 'devops-kd/ghpr-leaderboard-report'
     token(str)    : Github Personal Access token for authentication
     state(str)    : Status of the pull requests, eg., open | merged | closed
+
+    Retrun type: PaginatedList of github.PullRequest.PullRequest
     '''
     github = Github(token)
     repo = github.get_repo(repo_name)
@@ -52,6 +56,8 @@ def fetch_pull_requests(repo_name, token, num_of_days_ago):
                           eg., 'devops-kd/ghpr-leaderboard-report'
     token(str)          : Github Personal Access token for authentication
     num_of_days_ago(int): Integer value that represents no. of days ago to fetch the PR data.
+
+    Retrun type: dict
     '''
     last_week_date = get_last_week_date(num_of_days_ago)
     summary = {'opened': [], 'merged': [], 'closed': []}

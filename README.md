@@ -6,14 +6,6 @@ The sole purpose of this project is to generate a simple user friendly report on
 
 The entire solution is built with python and jinja2 library.
 
-## Usage
-
-Let us explore how to use this solution.
-
-### Use pre-defined docker image
-
-This project has already created a dokcer image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
-
 **Required Arguments:**
 * *GH_ACCESS_TOKEN* - Set you github personal access token as an environment variable 
     `export GH_ACCESS_TOKEN=<your_gh_PAT>`
@@ -21,6 +13,14 @@ This project has already created a dokcer image `ghpr-leaderboard-report`. You p
     `export SLACK_WEBHOOK_URL='https://<your_webjook_url>'`
 * *repoName* - This is a command line argument to pass your repository name, if you do not pass this will not work.
 days (optional) - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week.
+
+## Usage
+
+Let us explore how to use this solution.
+
+### Run Docker image
+
+This project has already created a dokcer image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
 
 ```bash
 # Pull the docker image from the public registry
@@ -34,7 +34,7 @@ docker run -d -e GH_ACCESS_TOKEN=$GH_ACCESS_TOKEN \
 ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
 ```
 
-## Installation steps for local development
+### Installation steps for local development
 
 Let us explore the steps to install and run it in your local.
 

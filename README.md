@@ -99,7 +99,7 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
         generate-report:
             runs-on: ubuntu-latest
             container:
-                image: ghpr-leaderboard-report:latest
+                image: ghpr-leaderboard-report:v0.1.0
             steps:
             - name: Checkout repository
               uses: actions/checkout@v2
@@ -109,7 +109,7 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
                 docker run \
                     -e GH_ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }} \
                     -e SLACK_WEBHOOK_URL=owner/repo \
-                    ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
+                    ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
     ```
 
 ### Step 2: Set Up Secrets
@@ -143,12 +143,12 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
                     withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN'),
                                     string(credentialsId: 'slack-webhook-url', variable: 'URL')]) {
                     script {
-                        docker.image('ghpr-leaderboard-report:latest').inside {
+                        docker.image('ghpr-leaderboard-report:v0.1.0').inside {
                             sh '''
                             docker run \
                             -e GH_ACCESS_TOKEN=${GITHUB_TOKEN} \
                             -e SLACK_WEBHOOK_URL=${URL} \
-                            ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
+                            ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
                             '''
                         }
                     }
@@ -190,7 +190,7 @@ This guide provides detailed steps to package and deploy the ghpr-leaderboard-re
               args:
                 - "--repoName"
                 - "jekyll/jekyll"
-              image: ghpr-leaderboard-report:latest
+              image: ghpr-leaderboard-report:v0.1.0
               env:
               - name: GH_ACCESS_TOKEN
                 valueFrom:
@@ -248,7 +248,7 @@ spec:
             runAsUser: 1000
           containers:
           - name: ghpr-leaderboard-report
-            image: ghpr-leaderboard-report:latest
+            image: ghpr-leaderboard-report:v0.1.0
             args:
             {{- if .Values.repoName }}
               - "--repoName"

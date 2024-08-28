@@ -22,6 +22,7 @@ The entire solution is built with python and jinja2 library.
 * *days (optional)* - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week. 
     ```bash
     # This will fetch data 15 days ago from now
+
     --days 15 
     ```
 
@@ -35,14 +36,16 @@ This project has already created a dokcer image `ghpr-leaderboard-report`. You p
 
 ```bash
 # Pull the docker image from the public registry
+
 docker pull karthi211187/ghpr-leaderboard-report:v0.1.0
 
 # Run the doker image to execute the script which will
 # fetch the pull requests, process them and send it to slack channel.
+
 docker run -d -e GH_ACCESS_TOKEN=$GH_ACCESS_TOKEN \
--e SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL \
---name ghpr-leaderboard-report \
-ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
+        -e SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL \
+        --name ghpr-leaderboard-report \
+        ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
 ```
 
 ### Installation steps for local development

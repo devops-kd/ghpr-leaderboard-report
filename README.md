@@ -20,10 +20,10 @@ The entire solution is built with python and jinja2 library.
 * jinja2
 
 **Required Arguments:**
-* *GH_ACCESS_TOKEN* - Set you github personal access token as an environment variable 
+* *GH_ACCESS_TOKEN* - Set you github personal access token (PAT) as an environment variable 
     `export GH_ACCESS_TOKEN=<your_gh_PAT>`
 * *SLACK_WEBHOOK_URL* - Set your team slack channel webhook url as an environment variable
-    `export SLACK_WEBHOOK_URL='https://<your_webjook_url>'`
+    `export SLACK_WEBHOOK_URL='https://<your_webhook_url>'`
 * *repoName* - This is a command line argument to pass your repository name, if you do not pass this will not work. `--repoName your-org/your-repo-name`
 * *days (optional)* - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week. 
     ```bash
@@ -43,7 +43,7 @@ This project has already created a dokcer image `ghpr-leaderboard-report`. You p
 ```bash
 # Set environment variables
 export GH_ACCESS_TOKEN='Your token'
-export SLACK_WEBHOOK_URL='your_slak_webhook_url'
+export SLACK_WEBHOOK_URL='your_slack_webhook_url'
 
 # Pull the docker image from the public registry
 

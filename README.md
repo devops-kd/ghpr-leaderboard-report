@@ -19,7 +19,11 @@ The entire solution is built with python and jinja2 library.
 * *SLACK_WEBHOOK_URL* - Set your team slack channel webhook url as an environment variable
     `export SLACK_WEBHOOK_URL='https://<your_webjook_url>'`
 * *repoName* - This is a command line argument to pass your repository name, if you do not pass this will not work. `--repoName your-org/your-repo-name`
-* *days (optional)* - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week. `--days 15   # This will fetch data 15 days ago from now`
+* *days (optional)* - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week. 
+    ```bash
+    # This will fetch data 15 days ago from now
+    --days 15 
+    ```
 
 ## Usage
 

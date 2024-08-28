@@ -38,7 +38,7 @@ Let us explore how to use this solution.
 
 ### Run Docker image
 
-This project has already created a dokcer image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
+This project has already created a docker image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
 
 ```bash
 # Set environment variables
@@ -49,7 +49,7 @@ export SLACK_WEBHOOK_URL='your_slack_webhook_url'
 
 docker pull karthi211187/ghpr-leaderboard-report:v0.1.0
 
-# Run the doker image to execute the script which will
+# Run the docker image to execute the script which will
 # fetch the pull requests, process them and send it to slack channel.
 
 docker run -d -e GH_ACCESS_TOKEN=$GH_ACCESS_TOKEN \
@@ -67,8 +67,8 @@ git clone git@github.com:devops-kd/ghpr-leaderboard-report.git
 
 cd ghpr-leaderboard-report/src
 
-export GH_ACCESS_TOKEN='Your token'
-export SLACK_WEBHOOK_URL='your_slak_webhook_url'
+export GH_ACCESS_TOKEN='your token'
+export SLACK_WEBHOOK_URL='your_slack_webhook_url'
 
 pip3 install -r requirements.txt
 
@@ -120,7 +120,7 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Go to your repository on GitHub.
 1. Navigate to `Settings` > `Secrets` > `Actions`.
 1. Add a new secret named `GH_ACCESS_TOKEN` with your GitHub personal access token.
-1. Add another secret named `SLACK_WEBOOK_URL` with your slack channel webhook.
+1. Add another secret named `SLACK_WEBHOOK_URL` with your slack channel webhook.
 
 
 ## Jenkins Pipeline
@@ -162,7 +162,7 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
         }
     }
     ```
-1. you can further parameterize the commandline argumments, to execute on demand.
+1. you can further parameterize the command-line arguments, to execute on demand.
 
 ### Step 2: Set Up Credentials
 1. Go to Jenkins and navigate to `Manage Jenkins` > `Manage Credentials`.

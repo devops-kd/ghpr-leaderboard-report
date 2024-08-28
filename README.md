@@ -111,15 +111,16 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
             - name: Run report generation
               run: |
                 docker run \
-                    -e GH_ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-                    -e SLACK_WEBHOOK_URL=owner/repo \
+                    -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} \
+                    -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} \
                     ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
     ```
 
 ### Step 2: Set Up Secrets
 1. Go to your repository on GitHub.
 1. Navigate to `Settings` > `Secrets` > `Actions`.
-1. Add a new secret named `GITHUB_TOKEN` with your GitHub personal access token.
+1. Add a new secret named `GH_ACCESS_TOKEN` with your GitHub personal access token.
+1. Add another secret named `SLACK_WEBOOK_URL` with your slack channel webhook.
 
 
 ## Jenkins Pipeline

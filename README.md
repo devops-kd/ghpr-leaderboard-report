@@ -67,8 +67,15 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 ```
 
 # Options to schedule this regularly
+- [Github Actions](#github-actions)
+- [Jenkins Pipeline](#jenkins)
+- [Kubernetes Manifest](#kube-manifest)
+- [Kubernetes with helm](#kube-helm)
+
+<div id='#github-actions'/>
 
 ## GitHub Actions
+
 ### Step 1: Create GitHub Actions Workflow
 1. Create a `.github/workflows` directory in your repository if it doesn’t exist.
 1. Create a new workflow file, e.g., `weekly-report.yml`, in the `.github/workflows` directory.
@@ -105,7 +112,10 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Navigate to `Settings` > `Secrets` > `Actions`.
 1. Add a new secret named `GITHUB_TOKEN` with your GitHub personal access token.
 
+<div id='#jenkins'/>
+
 ## Jenkins Pipeline
+
 ### Step 1: Create Jenkins Pipeline Job
 1. Open Jenkins and create a new Pipeline job.
 1. In the Pipeline section, configure the pipeline script.
@@ -150,8 +160,12 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Add a new credential with your `GitHub personal access token` and ID `github-token`.
 1. Add a mew credential with your `secret-text` and ID `slack-webhook-url`
 
+<div id='#kube-manifest'/>
+
 ## Kubernetes CronJob
+
 This guide provides detailed steps to package and deploy the ghpr-leaderboard-report Docker container as a Kubernetes CronJob using Helm. 
+
 ### Step 1: Create Kubernetes CronJob
 1. Create a Kubernetes CronJob YAML file, e.g., `cronjob.yaml`.
     ```yaml
@@ -201,7 +215,10 @@ This guide provides detailed steps to package and deploy the ghpr-leaderboard-re
     ```yaml
     kubectl apply -f cronjob.yaml
     ```
+<div id='#kube-helm'/>
+
 ## Kubernetes CronJob with helm
+
 ### Step 1: Create a Helm Chart
 1. Initialize a Helm chart:
 ```bash

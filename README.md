@@ -20,10 +20,10 @@ The entire solution is built with python and jinja2 library.
 * jinja2
 
 **Required Arguments:**
-* *GH_ACCESS_TOKEN* - Set you github personal access token as an environment variable 
+* *GH_ACCESS_TOKEN* - Set you github personal access token (PAT) as an environment variable 
     `export GH_ACCESS_TOKEN=<your_gh_PAT>`
 * *SLACK_WEBHOOK_URL* - Set your team slack channel webhook url as an environment variable
-    `export SLACK_WEBHOOK_URL='https://<your_webjook_url>'`
+    `export SLACK_WEBHOOK_URL='https://<your_webhook_url>'`
 * *repoName* - This is a command line argument to pass your repository name, if you do not pass this will not work. `--repoName your-org/your-repo-name`
 * *days (optional)* - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week. 
     ```bash
@@ -38,14 +38,18 @@ Let us explore how to use this solution.
 
 ### Run Docker image
 
-This project has already created a dokcer image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
+This project has already created a docker image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
 
 ```bash
+# Set environment variables
+export GH_ACCESS_TOKEN='Your token'
+export SLACK_WEBHOOK_URL='your_slack_webhook_url'
+
 # Pull the docker image from the public registry
 
 docker pull karthi211187/ghpr-leaderboard-report:v0.1.0
 
-# Run the doker image to execute the script which will
+# Run the docker image to execute the script which will
 # fetch the pull requests, process them and send it to slack channel.
 
 docker run -d -e GH_ACCESS_TOKEN=$GH_ACCESS_TOKEN \
@@ -63,8 +67,8 @@ git clone git@github.com:devops-kd/ghpr-leaderboard-report.git
 
 cd ghpr-leaderboard-report/src
 
-export GH_ACCESS_TOKEN='Your token'
-export SLACK_WEBHOOK_URL='your_slak_webhook_url'
+export GH_ACCESS_TOKEN='your token'
+export SLACK_WEBHOOK_URL='your_slack_webhook_url'
 
 pip3 install -r requirements.txt
 
@@ -107,15 +111,16 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
             - name: Run report generation
               run: |
                 docker run \
-                    -e GH_ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-                    -e SLACK_WEBHOOK_URL=owner/repo \
+                    -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} \
+                    -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} \
                     ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
     ```
 
 ### Step 2: Set Up Secrets
 1. Go to your repository on GitHub.
 1. Navigate to `Settings` > `Secrets` > `Actions`.
-1. Add a new secret named `GITHUB_TOKEN` with your GitHub personal access token.
+1. Add a new secret named `GH_ACCESS_TOKEN` with your GitHub personal access token.
+1. Add another secret named `SLACK_WEBHOOK_URL` with your slack channel webhook.
 
 
 ## Jenkins Pipeline
@@ -157,12 +162,12 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
         }
     }
     ```
-1. you can further parameterize the commandline argumments, to execute on demand.
+1. you can further parameterize the command-line arguments, to execute on demand.
 
 ### Step 2: Set Up Credentials
 1. Go to Jenkins and navigate to `Manage Jenkins` > `Manage Credentials`.
 1. Add a new credential with your `GitHub personal access token` and ID `github-token`.
-1. Add a mew credential with your `secret-text` and ID `slack-webhook-url`
+1. Add a new credential with your `secret-text` and ID `slack-webhook-url`
 
 
 ## Kubernetes CronJob

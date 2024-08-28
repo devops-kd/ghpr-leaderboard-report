@@ -46,7 +46,8 @@ jobs:
                   release_name: Release ${{ env.VERSION }}
                   body: |
                     Changes in this release:
-                    - Docker image published
+                    - Docker image published with the imgae tag ${{ env.VERSION }}
+                    - Use docker pull karthi211187/ghpr-leaderboard-report:${{ env.VERSION }} to pull the image.
                   draft: false
                   prerelease: false
               env:

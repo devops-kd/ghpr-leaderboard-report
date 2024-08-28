@@ -35,15 +35,14 @@ jobs:
             - name: Create Git tag
               id: tag
               run: |
-                  TAG_NAME=${{ env.VERSION }}
-                  git tag $TAG_NAME
-                  git push origin $TAG_NAME
+                  git tag ${{ env.VERSION }}
+                  git push origin ${{ env.VERSION }}
         
             - name: Create GitHub Release
               uses: actions/create-release@v1
               with:
-                  tag_name: ${{ steps.tag.outputs.TAG_NAME }}
-                  release_name: Release ${{ steps.tag.outputs.TAG_NAME }}
+                  tag_name: ${{ env.VERSION }}
+                  release_name: Release ${{ env.VERSION }}
                   body: |
                     Changes in this release:
                     - Docker image published

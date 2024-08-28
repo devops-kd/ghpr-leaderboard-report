@@ -110,38 +110,38 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Open Jenkins and create a new Pipeline job.
 1. In the Pipeline section, configure the pipeline script.
     ```groovy
-        pipeline {
-            agent any
+    pipeline {
+        agent any
 
-            triggers {
-                cron('H 23 * * 5')  // Runs at 23:00 every Friday
+        triggers {
+            cron('H 23 * * 5')  // Runs at 23:00 every Friday
+        }
+
+        stages {
+            stage('Checkout') {
+                steps {
+                    checkout scm
+                }
             }
 
-            stages {
-                stage('Checkout') {
-                    steps {
-                        checkout scm
-                    }
-                }
-
-                stage('Run Docker Container') {
-                    steps {
-                        withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN'),
-                                        string(credentialsId: 'slack-webhook-url', variable: 'URL')]) {
-                        script {
-                            docker.image('ghpr-leaderboard-report:latest').inside {
-                                sh '''
-                                docker run \
-                                -e GH_ACCESS_TOKEN=${GITHUB_TOKEN} \
-                                -e SLACK_WEBHOOK_URL=${URL} \
-                                ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
-                                '''
-                            }
+            stage('Run Docker Container') {
+                steps {
+                    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN'),
+                                    string(credentialsId: 'slack-webhook-url', variable: 'URL')]) {
+                    script {
+                        docker.image('ghpr-leaderboard-report:latest').inside {
+                            sh '''
+                            docker run \
+                            -e GH_ACCESS_TOKEN=${GITHUB_TOKEN} \
+                            -e SLACK_WEBHOOK_URL=${URL} \
+                            ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
+                            '''
                         }
                     }
                 }
             }
         }
+    }
     ```
 1. you can further parameterize the commandline argumments, to execute on demand.
 

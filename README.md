@@ -6,6 +6,13 @@ The sole purpose of this project is to generate a simple user friendly report on
 
 The entire solution is built with python and jinja2 library.
 
+**Python Version used for development**
+Python 3.10.12
+
+**Required Python Libraries:**
+* PyGithub
+* jinja2
+
 **Required Arguments:**
 * *GH_ACCESS_TOKEN* - Set you github personal access token as an environment variable 
     `export GH_ACCESS_TOKEN=<your_gh_PAT>`

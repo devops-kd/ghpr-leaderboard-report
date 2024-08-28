@@ -53,6 +53,8 @@ cd ghpr-leaderboard-report/src
 export GH_ACCESS_TOKEN='Your token'
 export SLACK_WEBHOOK_URL='your_slak_webhook_url'
 
+pip3 install -r requirements.txt
+
 python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 
 ```

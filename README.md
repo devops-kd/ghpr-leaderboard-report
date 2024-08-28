@@ -151,6 +151,7 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Add a mew credential with your `secret-text` and ID `slack-webhook-url`
 
 ## Kubernetes CronJob
+This guide provides detailed steps to package and deploy the ghpr-leaderboard-report Docker container as a Kubernetes CronJob using Helm. 
 ### Step 1: Create Kubernetes CronJob
 1. Create a Kubernetes CronJob YAML file, e.g., `cronjob.yaml`.
     ```yaml
@@ -163,22 +164,28 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
     jobTemplate:
         spec:
         template:
-            spec:
+          spec:
+            securityContext:
+                runAsNonRoot: true
+                runAsUser: 1000
             containers:
             - name: ghpr-leaderboard-report
-                image: ghpr-leaderboard-report:latest
-                env:
-                - name: GH_ACCESS_TOKEN
-                  valueFrom:
+              args:
+                - "--repoName"
+                - "jekyll/jekyll"
+              image: ghpr-leaderboard-report:latest
+              env:
+              - name: GH_ACCESS_TOKEN
+                valueFrom:
                     secretKeyRef:
                         name: github-token
                         key: token
-                - name: SLACK_WEBHOOK_URL
-                  valueFrom:
+              - name: SLACK_WEBHOOK_URL
+                valueFrom:
                     secretKeyRef:
                         name: slack-webhook-url
                         key: webhookUrl
-            restartPolicy: OnFailure
+          restartPolicy: OnFailure
     ```
 
 ### Step 2: Create Kubernetes Secret
@@ -194,3 +201,77 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
     ```yaml
     kubectl apply -f cronjob.yaml
     ```
+## Kubernetes CronJob with helm
+### Step 1: Create a Helm Chart
+1. Initialize a Helm chart:
+```bash
+helm create ghpr-leaderboard-report
+```
+2. Modify the `Chart.yaml` file with relevant information.
+### Step 2: Define the CronJob in the Helm Chart
+1. Create a `cronjob.yaml` template in the `templates` directory:
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-ghpr-leaderboard-report
+  labels:
+    app: {{ .Release.Name }}-ghpr-leaderboard-report
+spec:
+  schedule: "0 23 * * 5"  # Runs at 23:00 every Friday
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+          containers:
+          - name: ghpr-leaderboard-report
+            image: ghpr-leaderboard-report:latest
+            args:
+            {{- if .Values.repoName }}
+              - "--repoName"
+              - {{ .Values.repoName | quote }} 
+            {{- end}}
+            {{- if .Values.days }}
+              - "--days"
+              - {{ .Values.days | quote }} 
+            {{- end}}
+            env:
+            - name: GH_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                    name: github-token
+                    key: token
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                    name: slack-webhook-url
+                    key: webhookUrl
+          restartPolicy: OnFailure
+```
+1. Update `values.yaml` with default values:
+```yaml
+repoName: "owner/repo"
+days: 15 # Default value is 7
+```
+
+### Step 3: Create Kubernetes Secret for GitHub Token
+1. Create a Kubernetes secret:
+    ```bash
+    kubectl create secret generic github-token --from-literal=token=your_github_token
+    kubectl create secret generic slack-webhook-url --from-literal=webhookUrl=your_url
+
+    ```
+
+### Step 4: Package and Deploy the Helm Chart
+1. Package the Helm chart:
+```bash
+helm package ghpr-leaderboard-report
+```
+
+1. Deploy the Helm chart:
+```bash
+helm install ghpr-leaderboard-report ./ghpr-leaderboard-report
+```

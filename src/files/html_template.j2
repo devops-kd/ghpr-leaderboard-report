@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Pull Request Status Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .collapsible {
+            background-color: #f1f1f1;
+            color: #444;
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+        .active, .collapsible:hover {
+            background-color: #ccc;
+        }
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Weekly Pull Request Status Report</h2>
+
+<button class="collapsible">Opened PR - ({{ open_prs|length }} PRs)</button>
+<div class="content">
+    <table>
+        <tr>
+            <th>PR Title</th>
+            <th>Created By</th>
+            <th>Created On</th>
+            <th>Last Commit ID</th>
+            <th>Latest Comment</th>
+        </tr>
+        {% for pr in open_prs %}
+        <tr>
+            <td>{{ pr.title }}</td>
+            <td>{{ pr.created_by }}</td>
+            <td>{{ pr.created_on }}</td>
+            <td>{{ pr.last_commit_id }}</td>
+            <td>{{ pr.latest_comment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<button class="collapsible">Merged PR - ({{ merged_prs|length }} PRs)</button>
+<div class="content">
+    <table>
+        <tr>
+            <th>PR Title</th>
+            <th>Merged By</th>
+            <th>Created On</th>
+            <th>Last Commit ID</th>
+            <th>Latest Comment</th>
+        </tr>
+        {% for pr in merged_prs %}
+        <tr>
+            <td>{{ pr.title }}</td>
+            <td>{{ pr.merged_by }}</td>
+            <td>{{ pr.created_on }}</td>
+            <td>{{ pr.last_commit_id }}</td>
+            <td>{{ pr.latest_comment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<button class="collapsible">Closed PR - ({{ closed_prs|length }} PRs)</button>
+<div class="content">
+    <table>
+        <tr>
+            <th>PR Title</th>
+            <th>Closed By</th>
+            <th>Created On</th>
+            <th>Last Commit ID</th>
+            <th>Latest Comment</th>
+        </tr>
+        {% for pr in closed_prs %}
+        <tr>
+            <td>{{ pr.title }}</td>
+            <td>{{ pr.closed_by }}</td>
+            <td>{{ pr.created_on }}</td>
+            <td>{{ pr.last_commit_id }}</td>
+            <td>{{ pr.latest_comment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<button class="collapsible">Updated PR - ({{ updated_prs|length }} PRs)</button>
+<div class="content">
+    <table>
+        <tr>
+            <th>PR Title</th>
+            <th>Updated By</th>
+            <th>Created On</th>
+            <th>Last Commit ID</th>
+            <th>Latest Comment</th>
+        </tr>
+        {% for pr in updated_prs %}
+        <tr>
+            <td>{{ pr.title }}</td>
+            <td>{{ pr.updated_by }}</td>
+            <td>{{ pr.created_on }}</td>
+            <td>{{ pr.last_commit_id }}</td>
+            <td>{{ pr.latest_comment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

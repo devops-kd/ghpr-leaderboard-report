@@ -68,9 +68,9 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 
 # Options to schedule this regularly
 - [Github Actions](#github-actions)
-- [Jenkins Pipeline](#jenkins)
-- [Kubernetes Manifest](#kube-manifest)
-- [Kubernetes with helm](#kube-helm)
+- [Jenkins Pipeline](#jenkins-pipeline)
+- [Kubernetes Manifest](#kubernetes-cronjob)
+- [Kubernetes with helm](#kubernetes-cronJob-with-helm)
 
 <div id='#github-actions'/>
 
@@ -112,8 +112,8 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Navigate to `Settings` > `Secrets` > `Actions`.
 1. Add a new secret named `GITHUB_TOKEN` with your GitHub personal access token.
 
-<div id='#jenkins'/>
 
+<div id='#jenkins'/>
 ## Jenkins Pipeline
 
 ### Step 1: Create Jenkins Pipeline Job
@@ -215,7 +215,7 @@ This guide provides detailed steps to package and deploy the ghpr-leaderboard-re
     ```yaml
     kubectl apply -f cronjob.yaml
     ```
-<div id='#kube-helm'/>
+
 
 ## Kubernetes CronJob with helm
 

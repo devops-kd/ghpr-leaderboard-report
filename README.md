@@ -1,6 +1,6 @@
 # ghpr-leaderboard-report 
 
-Welcome to the Github Pull request Leader Board Report!
+## Welcome to the Github Pull request Leader Board Report!
 
 The sole purpose of this project is to generate a simple user friendly report on a github repo pull request for the given no. of days. It primarily sends out a notification to the slack channel with Opened, Merged and Closed pull request data within the last week by default. You can further go back and fetch more data by explicitly mentioning `--days` flag in the command line.
 
@@ -19,7 +19,7 @@ The entire solution is built with python and jinja2 library.
 * *SLACK_WEBHOOK_URL* - Set your team slack channel webhook url as an environment variable
     `export SLACK_WEBHOOK_URL='https://<your_webjook_url>'`
 * *repoName* - This is a command line argument to pass your repository name, if you do not pass this will not work.
-days (optional) - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week.
+* *days (optional)* - By default it will fetch data from a week ago(7 days ago from now). This is a command line argument to go further back in dates to fetch Pull requests beyond last week.
 
 ## Usage
 

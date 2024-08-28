@@ -1,1 +1,1 @@
-# ghpr-leaderboard-report (work-in-progress)
+# ghpr-leaderboard-report 

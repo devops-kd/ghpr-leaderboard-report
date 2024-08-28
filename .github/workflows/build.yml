@@ -3,6 +3,10 @@ on:
   pull_request:
     branches: main
 
+env:
+    GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
 jobs:
     build-image:
         runs-on: ubuntu-latest
@@ -17,4 +21,4 @@ jobs:
             
             - name: Run Docker container
               run: |
-                docker run -d --name ghpr-leaderboard-report ghpr-leaderboard-report:v0.0.1
+                docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report ghpr-leaderboard-report:v0.0.1

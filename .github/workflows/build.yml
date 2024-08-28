@@ -21,4 +21,4 @@ jobs:
             
             - name: Run Docker container
               run: |
-                docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report ghpr-leaderboard-report:v0.0.1
+                docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report ghpr-leaderboard-report:v0.0.1 --repoName jekyll/jekyll --days 30

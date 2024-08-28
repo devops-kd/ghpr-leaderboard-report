@@ -1,0 +1,24 @@
+name: Test GHPR Leaderboard Project
+on: 
+  workflow_dispatch:
+
+
+env:
+    GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+jobs:
+    test-docker-image:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Pull Docker image
+              run: |
+                docker pull karthi211187/ghpr-leaderboard-report:v0.1.0
+            
+            - name: Run container with defaults
+              run: |
+                docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report-01 karthi211187/ghpr-leaderboard-report:v0.1.0
+
+            - name: Run container with cli args
+              run: |
+                docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report-02 karthi211187/ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30

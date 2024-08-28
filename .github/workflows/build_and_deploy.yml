@@ -1,4 +1,4 @@
-name: Build GHPR Leaderboard Project
+name: Publish GHPR Leaderboard Project
 on: 
   push:
     branches: main

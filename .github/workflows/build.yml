@@ -13,11 +13,6 @@ jobs:
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
-              
-            - name: Print env variables
-              run: |
-                echo ${{ env.GH_ACCESS_TOKEN }}   
-                echo ${{ env.SLACK_WEBHOOK_URL }}
             
             - name: Build Docker image
               run: |

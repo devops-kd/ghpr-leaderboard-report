@@ -167,7 +167,7 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 ### Step 2: Set Up Credentials
 1. Go to Jenkins and navigate to `Manage Jenkins` > `Manage Credentials`.
 1. Add a new credential with your `GitHub personal access token` and ID `github-token`.
-1. Add a mew credential with your `secret-text` and ID `slack-webhook-url`
+1. Add a new credential with your `secret-text` and ID `slack-webhook-url`
 
 
 ## Kubernetes CronJob

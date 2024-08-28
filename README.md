@@ -66,3 +66,131 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 
 ```
 
+# Options to schedule this regularly
+
+## GitHub Actions
+### Step 1: Create GitHub Actions Workflow
+1. Create a `.github/workflows` directory in your repository if it doesn’t exist.
+1. Create a new workflow file, e.g., `weekly-report.yml`, in the `.github/workflows` directory.
+    ```yaml
+    name: Weekly Pull Request Report
+
+    on:
+    schedule:
+        - cron: '0 23 * * 5'  # Runs at 23:00 UTC every Friday
+    
+    env:
+        GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    jobs:
+    generate-report:
+        runs-on: ubuntu-latest
+        container:
+        image: ghpr-leaderboard-report:latest
+        steps:
+        - name: Checkout repository
+            uses: actions/checkout@v2
+
+        - name: Run report generation
+            run: |
+            docker run \
+                -e GH_ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+                -e SLACK_WEBHOOK_URL=owner/repo \
+                ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
+    ```
+
+### Step 2: Set Up Secrets
+1. Go to your repository on GitHub.
+1. Navigate to Settings > Secrets > Actions.
+1. Add a new secret named GITHUB_TOKEN with your GitHub personal access token.
+
+## Jenkins Pipeline
+### Step 1: Create Jenkins Pipeline Job
+1. Open Jenkins and create a new Pipeline job.
+1. In the Pipeline section, configure the pipeline script.
+    ```groovy
+    pipeline {
+        agent any
+
+        triggers {
+            cron('H 23 * * 5')  // Runs at 23:00 every Friday
+        }
+
+        stages {
+            stage('Checkout') {
+                steps {
+                    checkout scm
+                }
+            }
+
+            stage('Run Docker Container') {
+                steps {
+                    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN'),
+                                     string(credentialsId: 'slack-webhook-url', variable: 'URL')]) {
+                    script {
+                        docker.image('ghpr-leaderboard-report:latest').inside {
+                            sh '''
+                            docker run \
+                            -e GH_ACCESS_TOKEN=${GITHUB_TOKEN} \
+                            -e SLACK_WEBHOOK_URL=${URL} \
+                            ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
+                            '''
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ```
+1. you can further parameterize the commandline argumments, to execute on demand.
+
+### Step 2: Set Up Credentials
+1. Go to Jenkins and navigate to `Manage Jenkins` > `Manage Credentials`.
+1. Add a new credential with your `GitHub personal access token` and ID `github-token`.
+1. Add a mew credential with your `secret-text` and ID `slack-webhook-url`
+
+## Kubernetes CronJob
+### Step 1: Create Kubernetes CronJob
+1. Create a Kubernetes CronJob YAML file, e.g., `cronjob.yaml`.
+    ```yaml
+    apiVersion: batch/v1
+    kind: CronJob
+    metadata:
+    name: ghpr-leaderboard-report
+    spec:
+    schedule: "0 23 * * 5"  # Runs at 23:00 every Friday
+    jobTemplate:
+        spec:
+        template:
+            spec:
+            containers:
+            - name: ghpr-leaderboard-report
+                image: ghpr-leaderboard-report:latest
+                env:
+                - name: GH_ACCESS_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                        name: github-token
+                        key: token
+                - name: SLACK_WEBHOOK_URL
+                  valueFrom:
+                    secretKeyRef:
+                        name: slack-webhook-url
+                        key: webhookUrl
+            restartPolicy: OnFailure
+    ```
+
+### Step 2: Create Kubernetes Secret
+1. Create a Kubernetes secret for the GitHub token.
+    ```bash
+    kubectl create secret generic github-token --from-literal=token=your_github_token
+    kubectl create secret generic slack-webhook-url --from-literal=webhookUrl=your_url
+
+    ```
+
+### Step 3: Apply the CronJob
+1. Apply the CronJob configuration.
+    ```yaml
+    kubectl apply -f cronjob.yaml
+    ```

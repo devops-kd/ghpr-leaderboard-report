@@ -14,13 +14,18 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
               
+            - name: Print env variables
+              run: |
+                echo ${{ env.GH_ACCESS_TOKEN }}   
+                echo ${{ env.SLACK_WEBHOOK_URL }}
+            
             - name: Build Docker image
               run: |
                 docker build -t ghpr-leaderboard-report:v0.0.1 .
             
             - name: Run container with defaults
               run: |
-                  docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report-01 ghpr-leaderboard-report:v0.0.1
+                docker run -d -e GH_ACCESS_TOKEN=${{ env.GH_ACCESS_TOKEN }} -e SLACK_WEBHOOK_URL=${{ env.SLACK_WEBHOOK_URL }} --name ghpr-leaderboard-report-01 ghpr-leaderboard-report:v0.0.1
 
             - name: Run container with cli args
               run: |

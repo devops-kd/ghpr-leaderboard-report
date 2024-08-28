@@ -43,9 +43,9 @@ docker pull karthi211187/ghpr-leaderboard-report:v0.1.0
 # fetch the pull requests, process them and send it to slack channel.
 
 docker run -d -e GH_ACCESS_TOKEN=$GH_ACCESS_TOKEN \
-        -e SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL \
-        --name ghpr-leaderboard-report \
-        ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
+            -e SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL \
+            --name ghpr-leaderboard-report \
+            ghpr-leaderboard-report:v0.1.0 --repoName jekyll/jekyll --days 30
 ```
 
 ### Installation steps for local development

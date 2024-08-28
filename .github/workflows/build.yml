@@ -16,7 +16,6 @@ jobs:
               
             - name: Build Docker image
               run: |
-                ls -lart
                 docker build -t ghpr-leaderboard-report:v0.0.1 .
             
             - name: Run Docker container

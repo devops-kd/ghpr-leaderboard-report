@@ -20,5 +20,6 @@ token =  os.environ['GH_ACCESS_TOKEN']
 repo_name = args.repoName
 NUM_OF_DAYS = int(args.days)
 summary = fetch_pull_requests.fetch_pull_requests(repo_name, token, NUM_OF_DAYS)
-report = generate_report.generate_report_from_j2_template(summary)
+report = generate_report.generate_json_report_from_j2_template(summary)
+report_html = generate_report.generate_html_report_from_j2_template(summary)
 slack.send_slack_message(report)

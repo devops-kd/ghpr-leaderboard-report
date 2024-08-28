@@ -50,29 +50,29 @@
 
 <h2>Weekly Pull Request Status Report</h2>
 
-<button class="collapsible">Opened PR - ({{ open_prs|length }} PRs)</button>
+<button class="collapsible">Opened PR - ({{ open_pr|length }} PRs)</button>
 <div class="content">
     <table>
         <tr>
             <th>PR Title</th>
             <th>Created By</th>
             <th>Created On</th>
-            <th>Last Commit ID</th>
+            <th>Last Commit</th>
             <th>Latest Comment</th>
         </tr>
-        {% for pr in open_prs %}
+        {% for pr in open_pr %}
         <tr>
             <td>{{ pr.title }}</td>
-            <td>{{ pr.created_by }}</td>
-            <td>{{ pr.created_on }}</td>
-            <td>{{ pr.last_commit_id }}</td>
-            <td>{{ pr.latest_comment }}</td>
+            <td>{{ pr.user.login }}</td>
+            <td>{{ pr.created_at }}</td>
+            <td>{{ pr.get_commits()[pr.commits - 1] }}</td>
+            <td>{{ pr.get_issue_comments() }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
 
-<button class="collapsible">Merged PR - ({{ merged_prs|length }} PRs)</button>
+<button class="collapsible">Merged PR - ({{ merged_pr|length }} PRs)</button>
 <div class="content">
     <table>
         <tr>
@@ -82,19 +82,19 @@
             <th>Last Commit ID</th>
             <th>Latest Comment</th>
         </tr>
-        {% for pr in merged_prs %}
+        {% for pr in merged_pr %}
         <tr>
             <td>{{ pr.title }}</td>
             <td>{{ pr.merged_by }}</td>
-            <td>{{ pr.created_on }}</td>
-            <td>{{ pr.last_commit_id }}</td>
-            <td>{{ pr.latest_comment }}</td>
+            <td>{{ pr.merged_at }}</td>
+            <td>{{ pr.get_commits()[pr.commits - 1] }}</td>
+            <td>{{ pr.get_issue_comments() }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
 
-<button class="collapsible">Closed PR - ({{ closed_prs|length }} PRs)</button>
+<button class="collapsible">Closed PR - ({{ closed_pr|length }} PRs)</button>
 <div class="content">
     <table>
         <tr>
@@ -104,35 +104,35 @@
             <th>Last Commit ID</th>
             <th>Latest Comment</th>
         </tr>
-        {% for pr in closed_prs %}
+        {% for pr in closed_pr %}
         <tr>
             <td>{{ pr.title }}</td>
             <td>{{ pr.closed_by }}</td>
-            <td>{{ pr.created_on }}</td>
-            <td>{{ pr.last_commit_id }}</td>
-            <td>{{ pr.latest_comment }}</td>
+            <td>{{ pr.created_at }}</td>
+            <td>{{ pr.get_commits()[pr.commits - 1] }}</td>
+            <td>{{ pr.get_issue_comments() }}</td>
         </tr>
         {% endfor %}
     </table>
 </div>
 
-<button class="collapsible">Updated PR - ({{ updated_prs|length }} PRs)</button>
+<button class="collapsible">Updated PR - ({{ updated_pr|length }} PRs)</button>
 <div class="content">
     <table>
         <tr>
             <th>PR Title</th>
             <th>Updated By</th>
-            <th>Created On</th>
+            <th>Update at</th>
             <th>Last Commit ID</th>
             <th>Latest Comment</th>
         </tr>
-        {% for pr in updated_prs %}
+        {% for pr in updated_pr %}
         <tr>
             <td>{{ pr.title }}</td>
-            <td>{{ pr.updated_by }}</td>
-            <td>{{ pr.created_on }}</td>
-            <td>{{ pr.last_commit_id }}</td>
-            <td>{{ pr.latest_comment }}</td>
+            <td>{{ pr.user.login }}</td>
+            <td>{{ pr.update_at }}</td>
+            <td>{{ pr.get_commits()[pr.commits - 1] }}</td>
+            <td>{{ pr.get_issue_comments() }}</td>
         </tr>
         {% endfor %}
     </table>

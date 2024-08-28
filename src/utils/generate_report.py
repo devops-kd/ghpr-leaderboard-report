@@ -24,6 +24,7 @@ def generate_json_report_from_j2_template(summary):
                                     updated_pr=summary["updated"])
     return json.loads(rendered_json)
 
+
 def generate_html_report_from_j2_template(summary):
     '''
     Ths function loads the jinja template and generates a report with pr data.
@@ -32,7 +33,7 @@ def generate_html_report_from_j2_template(summary):
     summary(dict): Processed summary of PR data that has opened, closed and merged
                    pull requests since the given no. of days ago, usually the previous week.
 
-    Return type: dict
+    Return type: file_obj
     '''
     env = Environment(loader=FileSystemLoader('.'))
     template = env.get_template('files/html_template.j2')
@@ -43,5 +44,4 @@ def generate_html_report_from_j2_template(summary):
 
     with open('report.html', 'w', encoding="utf-8") as file:
         file.write(rendered_html)
-
-    return json.loads(rendered_html)
+        return file

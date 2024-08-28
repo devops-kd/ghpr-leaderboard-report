@@ -20,5 +20,6 @@ def generate_report_from_j2_template(summary):
     template = env.get_template('files/template.j2')
     rendered_json = template.render(open_pr=summary["opened"],
                                     merged_pr=summary["merged"],
-                                    closed_pr=summary["closed"])
+                                    closed_pr=summary["closed"],
+                                    updated_pr=summary["updated"])
     return json.loads(rendered_json)

@@ -16,9 +16,9 @@ parser.add_argument('--ghPAT', default="")
 args = parser.parse_args()
 
 
-token = os.environ['GH_ACCESS_TOKEN'] if args.ghPAT == "" else args.ghPAT
-repo_name = os.environ['REPO_NAME'] if args.repoName == "" else args.repoName
-NUM_OF_DAYS = 7 if args.days == "" else int(args.days)
+token =  os.environ['GH_ACCESS_TOKEN']
+repo_name = args.repoName
+NUM_OF_DAYS = int(args.days)
 summary = fetch_pull_requests.fetch_pull_requests(repo_name, token, NUM_OF_DAYS)
 report = generate_report.generate_report_from_j2_template(summary)
 slack.send_slack_message(report)

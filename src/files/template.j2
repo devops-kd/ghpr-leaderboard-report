@@ -28,8 +28,14 @@
 			"type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "{% if open_pr %}{% for pr in open_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.user.login }}\t\t\t\t{{ pr.created_at }}\n{% endfor %}{% else %}No Data{% endif %}"
+                "text": "{% if open_pr %}{% for pr in open_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.user.login }}\t\t\t\t{{ pr.created_at.strftime('%Y-%m-%d') }}\n{% endfor %}{% else %}No Data{% endif %}"
             }
+        },
+        {
+            "type": "divider"
+        },
+                {
+            "type": "divider"
         },
         {
 			"type": "section",
@@ -52,8 +58,14 @@
 			"type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "{% if merged_pr %}{% for pr in merged_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.merged_by.login }}\t\t\t\t{{ pr.merged_at }}\n{% endfor %}{% else %}No Data{% endif %}"
+                "text": "{% if merged_pr %}{% for pr in merged_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.merged_by.login }}\t\t\t\t{{ pr.merged_at.strftime('%Y-%m-%d') }}\n{% endfor %}{% else %}No Data{% endif %}"
             }
+        },
+        {
+            "type": "divider"
+        },
+                {
+            "type": "divider"
         },
         {
 			"type": "section",
@@ -76,7 +88,37 @@
 			"type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": "{% if closed_pr %}{% for pr in closed_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.user.login }}\t\t\t\t{{ pr.closed_at }}\n{% endfor %}{% else %}No Data{% endif %}"
+                "text": "{% if closed_pr %}{% for pr in closed_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.user.login }}\t\t\t\t{{ pr.closed_at.strftime('%Y-%m-%d') }}\n{% endfor %}{% else %}No Data{% endif %}"
+            }
+        },
+        {
+            "type": "divider"
+        },
+                {
+            "type": "divider"
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Recently Updated Pull Request - {{ updated_pr|length }}*"
+            }
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*PR Title*\t\t\t\t*Updated at*"        
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+			"type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "{% if updated_pr %}{% for pr in updated_pr %}*<{{ pr.html_url }}|{{ pr.title }}>*\t\t\t\t{{ pr.updated_at }}\n{% endfor %}{% else %}No Data{% endif %}"
             }
         }
     ]

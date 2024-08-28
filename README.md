@@ -41,6 +41,10 @@ Let us explore how to use this solution.
 This project has already created a dokcer image `ghpr-leaderboard-report`. You pull the image in your local and run the docker image to generate and send the report to your slack channel.
 
 ```bash
+# Set environment variables
+export GH_ACCESS_TOKEN='Your token'
+export SLACK_WEBHOOK_URL='your_slak_webhook_url'
+
 # Pull the docker image from the public registry
 
 docker pull karthi211187/ghpr-leaderboard-report:v0.1.0

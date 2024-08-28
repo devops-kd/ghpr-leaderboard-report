@@ -72,7 +72,6 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 - [Kubernetes Manifest](#kubernetes-cronjob)
 - [Kubernetes with helm](#kubernetes-cronJob-with-helm)
 
-<div id='#github-actions'/>
 
 ## GitHub Actions
 
@@ -91,20 +90,20 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     jobs:
-    generate-report:
-        runs-on: ubuntu-latest
-        container:
-        image: ghpr-leaderboard-report:latest
-        steps:
-        - name: Checkout repository
-            uses: actions/checkout@v2
+        generate-report:
+            runs-on: ubuntu-latest
+            container:
+                image: ghpr-leaderboard-report:latest
+            steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
 
-        - name: Run report generation
-            run: |
-            docker run \
-                -e GH_ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-                -e SLACK_WEBHOOK_URL=owner/repo \
-                ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
+            - name: Run report generation
+              run: |
+                docker run \
+                    -e GH_ACCESS_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+                    -e SLACK_WEBHOOK_URL=owner/repo \
+                    ghpr-leaderboard-report:latest --repoName jekyll/jekyll --days 30
     ```
 
 ### Step 2: Set Up Secrets
@@ -113,7 +112,6 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Add a new secret named `GITHUB_TOKEN` with your GitHub personal access token.
 
 
-<div id='#jenkins'/>
 ## Jenkins Pipeline
 
 ### Step 1: Create Jenkins Pipeline Job
@@ -160,7 +158,6 @@ python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 1. Add a new credential with your `GitHub personal access token` and ID `github-token`.
 1. Add a mew credential with your `secret-text` and ID `slack-webhook-url`
 
-<div id='#kube-manifest'/>
 
 ## Kubernetes CronJob
 

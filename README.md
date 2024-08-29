@@ -75,6 +75,9 @@ pip3 install -r requirements.txt
 python3 main.py --repoName jekyll/jekyll --days 7 # --days flag is optional
 
 ```
+### Output of the report should like this
+
+![Slack Channel message](image.png)
 
 # Options to schedule this regularly
 - [Github Actions](#github-actions)
